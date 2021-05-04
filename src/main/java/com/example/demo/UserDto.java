@@ -1,45 +1,25 @@
 package com.example.demo;
 
-
-import lombok.Data;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-//DTO
-
-@Data
-@Entity
-@Table(name="users")
-public class User {
-    @Id
-    @Column
+public class UserDto {
     private Integer id;
-
-    @Column(name="email")
     private String email;
-
-    @Column(name="password")
     private String password;
-
-    @Column(name="full_name")
     private String fullName;
 
-    public User(){}
+    public UserDto(){}
 
-    public User(Integer id, String email, String password, String fullName) {
+    public UserDto(Integer id, String email, String password, String fullName) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.fullName = fullName;
     }
 
-    public User(UserDto userDto){
-        this.id = userDto.getId();
-        this.email = userDto.getEmail();
-        this.password = userDto.getPassword();
-        this.fullName = userDto.getFullName();
+    public UserDto(User user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.fullName = user.getFullName();
     }
 
     public Integer getId() {

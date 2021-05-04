@@ -9,4 +9,10 @@ import java.util.Optional;
 public interface UserDao extends JpaRepository<User,Integer> {
     Optional<Integer> findById(User user);
     List<User> findAll();
+
+    //Para guardar un usuario en la BBDD
+    User save(User user);
+
+    //Para eliminar un usuario
+    void deleteUserById(Integer id);
 }
