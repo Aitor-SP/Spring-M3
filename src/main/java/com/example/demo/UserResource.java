@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -18,33 +20,45 @@ public class UserResource {
         this.userController = userController;
     }
 
+    //1
     @GetMapping
     private List<UserDto> users() {
         return userController.readAll();
     }
 
+    //2
     @GetMapping("/{id}")
     private UserDto user(@PathVariable Integer id) {
         return userController.getUserById(id);
     }
 
+    //Mostramos el email a traves de introducir el id
     @GetMapping("/{id}/email}")
     private Map<String, String> email(@PathVariable Integer id) {
         return Collections.singletonMap("email", userController.getUserById(id).getEmail());
     }
 
+    //3
     @PostMapping
     private UserDto newUser(@RequestBody UserDto userDto) {
         return userController.addUser(userDto);
     }
 
+    //4
     @DeleteMapping("/{id}")
     private void deleteUser(@PathVariable Integer id) {
         userController.deleteUserById(id);
     }
 
+    //5
     @PutMapping("/{id}")
     private UserDto replaceUser(@RequestBody UserDto userDto, @PathVariable Integer id){
-        return userController.updateUser(userDto, id);
+        return userController.replaceUser(userDto,id);
+    }
+
+    //6
+    @PatchMapping(path = "/{id}", consumes = "application/json-patch+json")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody JsonPatch patch) {
+        return userController.updateUser(id,patch);
     }
 }
